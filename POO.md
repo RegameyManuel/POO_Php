@@ -11,8 +11,8 @@ La Programmation Orientée Objet (POO) est un paradigme de programmation qui uti
 2. **Encapsulation** :
    - Principe de restreindre l'accès à certains composants d'un objet, ce qui est fait en définissant des propriétés et méthodes comme publiques, privées ou protégées.
    - **Public** : Accessible depuis n'importe où.
-   - **Privé** : Accessible uniquement depuis la classe elle-même.
-   - **Protégé** : Accessible depuis la classe elle-même et les classes dérivées.
+   - **Private** : Accessible uniquement depuis la classe elle-même.
+   - **Protected** : Accessible depuis la classe elle-même et les classes dérivées.
 
 3. **Héritage** :
    - Permet à une nouvelle classe d'hériter des propriétés et méthodes d'une classe existante. Par exemple, une classe `VoitureDeSport` peut hériter de `Voiture`.
