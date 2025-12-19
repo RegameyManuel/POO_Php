@@ -483,6 +483,14 @@ class Compte
             $this->solde += $montant;
         }
     }
+
+    public function retirer(float $montant): void
+    {
+        if ($montant <= 1000) {
+            $this->solde -= $montant;
+        }
+    }
+
 }
 
 class ComptePremium extends Compte
