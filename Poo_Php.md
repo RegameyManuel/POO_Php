@@ -18,9 +18,9 @@ Ce document a pour objectif de t’expliquer en profondeur ce changement de para
 
 En procédural, on pense en termes de tâches à exécuter :
 
-* lire des données
-* les transformer
-* afficher un résultat
+- lire des données
+- les transformer
+- afficher un résultat
 
 Les données sont souvent stockées dans des variables globales ou passées de fonction en fonction. Rien n’empêche qu’elles soient modifiées à n’importe quel endroit du programme.
 
@@ -44,9 +44,9 @@ function retirer(&$solde, $montant) {
 
 Ce code fonctionne, mais plusieurs questions se posent :
 
-* Qui garantit que `$solde` ne sera pas modifié directement ailleurs ?
-* Où sont centralisées les règles métier ?
-* Comment gérer plusieurs comptes sans dupliquer le code ?
+- Qui garantit que `$solde` ne sera pas modifié directement ailleurs ?
+- Où sont centralisées les règles métier ?
+- Comment gérer plusieurs comptes sans dupliquer le code ?
 
 Ces problèmes apparaissent très vite dans un projet réel.
 
@@ -58,9 +58,9 @@ En POO, on change complètement de point de vue. On ne se demande plus uniquemen
 
 Un **objet** est une entité autonome qui :
 
-* possède un état (des données internes)
-* expose des comportements (des méthodes)
-* contrôle la manière dont son état peut être modifié
+- possède un état (des données internes)
+- expose des comportements (des méthodes)
+- contrôle la manière dont son état peut être modifié
 
 Cela permet de structurer le code autour de concepts clairs et cohérents.
 
@@ -124,9 +124,9 @@ Dans l’exemple précédent, la propriété `$solde` est déclarée `private`. 
 
 Dans une application réelle :
 
-* les données viennent d’utilisateurs
-* elles peuvent être invalides ou malveillantes
-* les règles métier doivent être respectées en permanence
+- les données viennent d’utilisateurs
+- elles peuvent être invalides ou malveillantes
+- les règles métier doivent être respectées en permanence
 
 L’encapsulation garantit que ces règles sont appliquées au bon endroit et de manière cohérente.
 
@@ -298,6 +298,156 @@ classDiagram
 ```
 
 La composition est souvent préférable à l’héritage car elle offre plus de flexibilité et moins de dépendances rigides.
+
+---
+
+## 8. Erreurs fréquentes en POO chez les débutants
+
+Cette partie est volontairement longue et explicative. Les erreurs présentées ici ne sont pas des fautes graves, mais des **étapes normales dans l’apprentissage**. Les identifier tôt permet de progresser beaucoup plus vite.
+
+### 8.1 Confondre POO et simple syntaxe `class`
+
+Une erreur très fréquente consiste à croire que l’on fait de la POO dès que l’on utilise le mot-clé `class`.
+
+Exemple typique :
+
+```php
+class Utilisateur {
+    public string $nom;
+    public string $email;
+}
+```
+
+Puis ailleurs :
+
+```php
+$user = new Utilisateur();
+$user->nom = $_POST['nom'];
+$user->email = $_POST['email'];
+```
+
+Ici, la classe n’apporte **aucune valeur ajoutée** par rapport à un tableau associatif. Les données sont publiques, non contrôlées, et aucune règle métier n’est appliquée.
+
+La POO ne consiste pas à stocker des données dans une classe, mais à **encapsuler un comportement cohérent**.
+
+---
+
+### 8.2 Tout mettre en `public`
+
+Beaucoup de débutants rendent toutes les propriétés publiques « pour aller plus vite ».
+
+Cela casse immédiatement l’encapsulation et rend impossible le contrôle de l’état interne de l’objet.
+
+Règle simple à retenir :
+
+- propriétés : `private` par défaut
+- méthodes : `public` uniquement si elles font partie de l’API de l’objet
+
+---
+
+### 8.3 Dupliquer du code au lieu d’utiliser l’héritage ou la composition
+
+En procédural, la duplication est courante. En POO, elle devient rapidement un problème majeur.
+
+Si deux classes contiennent du code très similaire, c’est souvent le signe qu’un comportement commun doit être factorisé.
+
+Attention cependant : l’héritage n’est pas toujours la solution. Dans de nombreux cas, la **composition** est préférable.
+
+---
+
+### 8.4 Utiliser l’héritage là où il n’y a pas de relation logique
+
+Une erreur classique est de faire hériter une classe simplement pour réutiliser du code.
+
+Par exemple :
+
+```php
+class Voiture extends Moteur {}
+```
+
+Conceptuellement, une voiture **n’est pas** un moteur. Elle **a** un moteur.
+
+Cela doit conduire à une composition et non à un héritage.
+
+---
+
+### 8.5 Écrire des méthodes trop longues
+
+Une méthode POO efficace est courte et lisible.
+
+Si une méthode dépasse 30 à 40 lignes, c’est souvent un signal d’alerte indiquant que plusieurs responsabilités sont mélangées.
+
+---
+
+### 8.6 Mélanger logique métier et affichage
+
+Même sans MVC, il est important de ne pas écrire du HTML dans les méthodes métier.
+
+Une classe métier ne devrait jamais faire de `echo` dans un contexte réel. Elle retourne des données, et c’est le code appelant qui décide de l’affichage.
+
+---
+
+## 9. Progression d’exercices pratiques (avec corrigés)
+
+Les exercices suivants sont conçus pour accompagner progressivement l’apprentissage des concepts présentés dans ce cours. Chaque exercice introduit une difficulté supplémentaire.
+
+---
+
+### Exercice 1 – Première classe et objet
+
+**Objectif** : comprendre la notion de classe et d’objet.
+
+Consigne :
+
+- Créer une classe `Utilisateur`
+- Propriétés privées : nom, email
+- Constructeur pour initialiser ces propriétés
+- Méthodes publiques `getNom()` et `getEmail()`
+
+---
+
+### Exercice 2 – Encapsulation et règles métier
+
+**Objectif** : protéger l’état interne d’un objet.
+
+Consigne :
+
+- Créer une classe `Produit`
+- Propriétés privées : nom, prix
+- Interdire un prix négatif
+
+---
+
+### Exercice 3 – Héritage
+
+**Objectif** : factoriser un comportement commun.
+
+Consigne :
+
+- Classe `Compte`
+- Classe `ComptePremium` avec plafond de retrait plus élevé
+
+---
+
+### Exercice 4 – Polymorphisme
+
+**Objectif** : utiliser des objets différents via une interface commune.
+
+Consigne :
+
+- Interface `MoyenPaiement`
+- Classes `CarteBancaire`, `Paypal`
+
+---
+
+### Exercice 5 – Composition
+
+**Objectif** : préférer l’assemblage d’objets à l’héritage.
+
+Consigne :
+
+- Classe `Commande`
+- Utilise un objet `MoyenPaiement`
 
 ---
 
